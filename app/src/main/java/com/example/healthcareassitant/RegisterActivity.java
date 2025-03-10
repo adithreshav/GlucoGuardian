@@ -64,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
             return;
         }
-
+//added this comment for testing
         registerButton.setEnabled(false);
 
         mAuth.createUserWithEmailAndPassword(email, password)
