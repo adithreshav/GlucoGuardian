@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "915311815446",
+    "project_id": "healthcare-assistant-bbed9",
+    "storage_bucket": "healthcare-assistant-bbed9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915311815446:android:a19e6ef9942cf3a7f67e37",
+        "android_client_info": {
+          "package_name": "com.example.healthcareassitant"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgyP315QBEffqe4OQvDZqRL0hBlib9ex8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
