@@ -14,7 +14,7 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private TextView welcomeText;
     private Button logoutButton;
-
+//comment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
