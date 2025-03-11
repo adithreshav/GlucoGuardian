@@ -2,43 +2,44 @@ package com.example.healthcareassitant;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
-    private FirebaseAuth mAuth;
-    private TextView welcomeText;
-    private Button logoutButton;
-//comment
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        mAuth = FirebaseAuth.getInstance();
-        welcomeText = findViewById(R.id.welcomeText);
-        logoutButton = findViewById(R.id.logoutButton);
+        // Button Click Listeners
+        findViewById(R.id.btnMedicationReminder).setOnClickListener(view ->
+                startActivity(new Intent(HomeActivity.this, MedicationReminderActivity.class)));
 
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            welcomeText.setText("Welcome, " + user.getEmail());
-        } else {
-            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-            finish();
-        }
+        findViewById(R.id.btnEmergency).setOnClickListener(view ->
+                startActivity(new Intent(HomeActivity.this, EmergencyActivity.class)));
 
-        logoutButton.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btnHealthRecommendation).setOnClickListener(view ->
+                startActivity(new Intent(HomeActivity.this, HealthRecommendationActivity.class)));
+
+        findViewById(R.id.btnGlucoseGuardian).setOnClickListener(view ->
+                startActivity(new Intent(HomeActivity.this, GlucoseGuardianActivity.class)));
+
+        // Bottom Navigation Handling
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                mAuth.signOut();
-                Toast.makeText(HomeActivity.this, "Logged out", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-                finish();
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.nav_home) {
+                    return true;
+                } else if (item.getItemId() == R.id.nav_profile) {
+                    startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
+                    return true;
+                }
+                return false;
             }
         });
     }
