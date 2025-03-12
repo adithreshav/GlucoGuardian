@@ -36,6 +36,7 @@ dependencies {
 
     // Firebase Authentication
     implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore:24.9.1'
 
     // AndroidX Libraries
     implementation 'androidx.appcompat:appcompat:1.6.1'
