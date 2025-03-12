@@ -1,5 +1,6 @@
 package com.example.healthcareassitant;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -42,5 +43,11 @@ public class HomeActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+    // Prevent swipe-back navigation to LoginActivity
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        // Do nothing to disable back navigation (swipe-back behavior)
     }
 }

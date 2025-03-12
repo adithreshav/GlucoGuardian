@@ -12,36 +12,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthcareAssitant"
         tools:targetApi="31">
+
+        <!-- Set LoginActivity as the entry point -->
         <activity
-            android:name=".ProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".GlucoseGuardianActivity"
-            android:exported="false" />
-        <activity
-            android:name=".HealthRecommendationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".EmergencyActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MedicationReminderActivity"
-            android:exported="false" />
-        <activity
-            android:name=".HomeActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".RegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
+
+        <!-- Other activities -->
+        <activity android:name=".HomeActivity" android:exported="false" />
+        <activity android:name=".ProfileActivity" android:exported="false" />
+        <activity android:name=".GlucoseGuardianActivity" android:exported="false" />
+        <activity android:name=".HealthRecommendationActivity" android:exported="false" />
+        <activity android:name=".EmergencyActivity" android:exported="false" />
+        <activity android:name=".MedicationReminderActivity" android:exported="false" />
+        <activity android:name=".RegisterActivity" android:exported="false" />
+
     </application>
 
 </manifest>
