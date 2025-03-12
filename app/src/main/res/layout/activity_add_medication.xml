@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddMedicationActivity"
+    android:padding="20dp">
+
+    <!-- Medication Name Input -->
+    <EditText
+        android:id="@+id/etMedicationName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Medication Name"
+        android:inputType="text"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Dosage Input -->
+    <EditText
+        android:id="@+id/etDosage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Dosage (e.g., 500mg)"
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@id/etMedicationName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp" />
+
+    <!-- Select Time Button -->
+    <Button
+        android:id="@+id/btnPickTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Select Time"
+        app:layout_constraintTop_toBottomOf="@id/etDosage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp" />
+
+    <!-- Display Selected Time -->
+    <TextView
+        android:id="@+id/tvSelectedTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time: Not Set"
+        app:layout_constraintTop_toBottomOf="@id/btnPickTime"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp" />
+
+    <!-- Save Button -->
+    <Button
+        android:id="@+id/btnSaveMedication"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Save Medication"
+        app:layout_constraintTop_toBottomOf="@id/tvSelectedTime"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
