@@ -1,7 +1,5 @@
 package com.example.healthcareassitant;
 
-//package com.example.healthassistant.adapters;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.healthcareassitant.R;
-import com.example.healthcareassitant.Medication;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
@@ -38,15 +34,32 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Vi
         holder.tvDosage.setText(medication.getDosage());
         holder.tvTime.setText(medication.getTime());
 
-        // Handle Delete
+        if (medication.getFrequency().equals("Specific Days")) {
+            holder.tvFrequency.setText("Days: " + medication.getDays().toString());
+        } else {
+            holder.tvFrequency.setText("Frequency: " + medication.getFrequency());
+        }
+
+//        // Handle Delete
+//        holder.btnDelete.setOnClickListener(view -> {
+//            FirebaseFirestore.getInstance().collection("medication_reminders")
+//                    .document(medication.getId()).delete()
+//                    .addOnSuccessListener(aVoid -> {
+//                        medicationList.remove(position);
+//                        notifyItemRemoved(position);
+//                    });
+//        });
+
         holder.btnDelete.setOnClickListener(view -> {
             FirebaseFirestore.getInstance().collection("medication_reminders")
                     .document(medication.getId()).delete()
                     .addOnSuccessListener(aVoid -> {
+                        ReminderScheduler.cancelReminder(view.getContext(), medication.getId());
                         medicationList.remove(position);
                         notifyItemRemoved(position);
                     });
         });
+
     }
 
     @Override
@@ -55,7 +68,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Vi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvDosage, tvTime;
+        TextView tvName, tvDosage, tvTime,tvFrequency;
         ImageButton btnDelete;
 
         public ViewHolder(@NonNull View itemView) {
@@ -63,6 +76,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Vi
             tvName = itemView.findViewById(R.id.tvMedicationName);
             tvDosage = itemView.findViewById(R.id.tvMedicationDosage);
             tvTime = itemView.findViewById(R.id.tvMedicationTime);
+            tvFrequency = itemView.findViewById(R.id.tvMedicationFrequency);
             btnDelete = itemView.findViewById(R.id.btnDelete);
         }
     }

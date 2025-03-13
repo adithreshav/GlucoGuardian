@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FB972A"
+    android:background="#FD9B37"
     tools:context=".HomeActivity">
 
     <!-- Logo at the Top Center -->
@@ -39,7 +39,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="20dp"
-            android:backgroundTint="#3447B4"
+            android:backgroundTint="#304199"
 
             android:drawableTop="@drawable/ic_med"
             android:drawablePadding="10dp"
@@ -63,10 +63,10 @@
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
-            android:backgroundTint="#3447B4"
+            android:backgroundTint="#304199"
             android:drawableTop="@drawable/ic_phone"
             android:drawablePadding="5dp"
-            android:paddingTop="20dp"
+            android:paddingTop="10dp"
             android:text="Emergency Assistance"
             android:textSize="20sp"
             app:iconPadding="0dp" />
@@ -78,7 +78,7 @@
             android:layout_height="160dp"
             android:layout_gravity="center"
             android:layout_marginRight="10dp"
-            android:backgroundTint="#3447B4"
+            android:backgroundTint="#304199"
 
             android:drawableTop="@drawable/ic_heart"
             android:drawablePadding="10dp"
@@ -87,8 +87,7 @@
 
             android:text="Health\nTips"
             android:textSize="20sp"
-            app:iconPadding="0dp"
-            />
+            app:iconPadding="0dp" />
 
         <!-- Glucose Guardian Button -->
         <Button
@@ -99,7 +98,7 @@
 
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:backgroundTint="#3447B4"
+            android:backgroundTint="#304199"
 
             android:drawableTop="@drawable/ic_record"
             android:drawablePadding="10dp"
@@ -108,8 +107,7 @@
 
             android:text="Glucose Guardian"
             android:textSize="20sp"
-            app:iconPadding="0dp"
-            />
+            app:iconPadding="0dp" />
 
     </GridLayout>
 
@@ -119,7 +117,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#FB972A"
+        android:background="#FD9B37"
         app:itemIconTint="@color/blue"
         app:itemTextColor="@color/blue"
         app:menu="@menu/bottom_nav_menu" />

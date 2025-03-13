@@ -1,8 +1,12 @@
 package com.example.healthcareassitant;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import androidx.annotation.NonNull;
@@ -29,6 +33,11 @@ public class HomeActivity extends AppCompatActivity {
         findViewById(R.id.btnGlucoseGuardian).setOnClickListener(view ->
                 startActivity(new Intent(HomeActivity.this, GlucoseGuardianActivity.class)));
 
+        //
+        // Create Notification Channel
+        NotificationHelper.createNotificationChannel(this);
+        //
+
         // Bottom Navigation Handling
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -43,6 +52,19 @@ public class HomeActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+
+        // Request alarm permission for Android 12+ (API 31+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            if (!alarmManager.canScheduleExactAlarms()) {
+                Log.e("MainActivity", "⚠️ Exact alarm permission NOT granted. Requesting...");
+                Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                startActivity(intent);
+            } else {
+                Log.d("MainActivity", "✅ Exact alarm permission is already granted.");
+            }
+        }
     }
     // Prevent swipe-back navigation to LoginActivity
     @SuppressLint("MissingSuperCall")

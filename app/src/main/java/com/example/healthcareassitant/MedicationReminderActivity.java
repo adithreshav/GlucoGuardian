@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.healthcareassitant.MedicationAdapter;
 import com.example.healthcareassitant.Medication;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -34,11 +35,22 @@ public class MedicationReminderActivity extends AppCompatActivity {
         loadMedications();
 
         FloatingActionButton fabAdd = findViewById(R.id.fabAdd);
-        fabAdd.setOnClickListener(view -> startActivity(new Intent(this, AddMedicationActivity.class)));
+        //fabAdd.setOnClickListener(view -> startActivity(new Intent(this, AddMedicationActivity.class)));
+
+
+        //
+        fabAdd.setOnClickListener(view -> {
+            Intent intent = new Intent(MedicationReminderActivity.this, AddMedicationActivity.class);
+            startActivityForResult(intent, 1); // Request code 1
+        }); //
+
     }
 
     private void loadMedications() {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         FirebaseFirestore.getInstance().collection("medication_reminders")
+                .whereEqualTo("userId", userId)  // Filter medications for the logged-in user
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     medicationList.clear();
@@ -51,4 +63,15 @@ public class MedicationReminderActivity extends AppCompatActivity {
                     recyclerView.setAdapter(adapter);
                 });
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            loadMedications(); // Reload medications immediately after adding
+        }
+    }
+
+
 }

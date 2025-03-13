@@ -2,4 +2,10 @@
     <string name="app_name">Healthcare Assitant</string>
     <string name="welcome_text">Welcome!</string>
     <string name="logout_button">Logout</string>
+
+    <string-array name="frequency_options">
+        <item>Every Day</item>
+        <item>Specific Days</item>
+    </string-array>
+
 </resources>
