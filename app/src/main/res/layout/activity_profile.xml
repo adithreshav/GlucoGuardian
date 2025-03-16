@@ -2,104 +2,105 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="20dp"
+    android:background="#FD9B37"
     android:gravity="top"
-    android:background="#FFA500">  <!-- Orange Background -->
+    android:orientation="vertical"
+    android:padding="20dp">  <!-- Orange Background -->
 
     <!-- Profile Title -->
     <TextView
         android:id="@+id/profileTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Profile"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        android:gravity="center"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="40dp"/>  <!-- Increased gap between Profile & Email -->
+        android:layout_marginBottom="40dp"
+        android:gravity="center"
+        android:text="Profile"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        android:textStyle="bold" />  <!-- Increased gap between Profile & Email -->
 
     <!-- Email Text -->
     <TextView
         android:id="@+id/emailText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Email"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
+        android:layout_marginBottom="10dp"
         android:gravity="center"
-        android:layout_marginBottom="10dp"/>
+        android:text="Email"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <!-- Name Field -->
     <EditText
         android:id="@+id/nameField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/rounded_edittext"
         android:hint="Full Name"
         android:inputType="textPersonName"
-        android:padding="12dp"
-        android:background="@drawable/rounded_edittext"
-        android:layout_marginBottom="12dp"/>
+        android:padding="12dp" />
 
     <!-- Age Field -->
     <EditText
         android:id="@+id/ageField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/rounded_edittext"
         android:hint="Age"
         android:inputType="number"
-        android:padding="12dp"
-        android:background="@drawable/rounded_edittext"
-        android:layout_marginBottom="12dp"/>
+        android:padding="12dp" />
 
     <TextView
         android:id="@+id/ageError"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text=""
         android:textColor="#FF0000"
         android:textSize="14sp"
-        android:visibility="gone"
-        android:text=""/>
+        android:visibility="gone" />
 
     <!-- Diabetes Type Field -->
     <EditText
         android:id="@+id/diabetesTypeField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Diabetes Type (Type 1 / Type 2)"
-        android:padding="12dp"
+        android:layout_marginBottom="18dp"
         android:background="@drawable/rounded_edittext"
-        android:layout_marginBottom="18dp"/>
+        android:hint="Diabetes Type (Type 1 / Type 2)"
+        android:padding="12dp" />
 
     <TextView
         android:id="@+id/diabetesError"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text=""
         android:textColor="#FF0000"
         android:textSize="14sp"
-        android:visibility="gone"
-        android:text=""/>
+        android:visibility="gone" />
 
     <!-- Save Button -->
     <Button
         android:id="@+id/saveButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Changes"
-        android:textColor="#FFFFFF"
-        android:padding="14dp"
+        android:layout_marginBottom="12dp"
         android:background="@drawable/rounded_button"
-        android:layout_marginBottom="12dp"/>
+        android:backgroundTint="#304199"
+        android:padding="14dp"
+        android:text="Save Changes"
+        android:textColor="#FFFFFF" />
 
     <!-- Logout Button -->
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Logout"
-        android:textColor="#FFFFFF"
+        android:background="@drawable/rounded_button"
         android:padding="14dp"
-        android:background="@drawable/rounded_button"/>
+        android:text="Logout"
+        android:textColor="#FFFFFF" />
 </LinearLayout>

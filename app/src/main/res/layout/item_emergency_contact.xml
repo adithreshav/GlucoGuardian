@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp">
+
+    <!-- Emergency Contact Name -->
+    <TextView
+        android:id="@+id/tvContactName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Dr. Smith"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnCall" />
+
+    <!-- Emergency Contact Phone -->
+    <TextView
+        android:id="@+id/tvContactPhone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="123-456-7890"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvContactName"
+        app:layout_constraintEnd_toStartOf="@+id/btnCall" />
+
+    <!-- Call Button -->
+    <ImageButton
+        android:id="@+id/btnCall"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_call"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Call Contact"
+        app:layout_constraintEnd_toStartOf="@id/btnDelete"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Delete Button -->
+    <ImageButton
+        android:id="@+id/btnDelete"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_delete"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Delete Contact"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
