@@ -38,6 +38,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore:24.9.1'
 
+    //MPAndroidChart library
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
     // AndroidX Libraries
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'

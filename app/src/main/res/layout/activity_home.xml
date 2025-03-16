@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FD9B37"
+    android:background="#F89E45"
     tools:context=".HomeActivity">
 
     <!-- Logo at the Top Center -->
