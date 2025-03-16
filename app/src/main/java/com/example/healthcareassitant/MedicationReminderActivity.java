@@ -2,15 +2,11 @@ package com.example.healthcareassitant;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.healthcareassitant.MedicationAdapter;
-import com.example.healthcareassitant.Medication;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,7 +30,7 @@ public class MedicationReminderActivity extends AppCompatActivity {
 
         loadMedications();
 
-        FloatingActionButton fabAdd = findViewById(R.id.fabAdd);
+        FloatingActionButton fabAdd = findViewById(R.id.fabAddEmergency);
         //fabAdd.setOnClickListener(view -> startActivity(new Intent(this, AddMedicationActivity.class)));
 
 
