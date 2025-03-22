@@ -7,7 +7,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import android.view.MenuItem;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -72,6 +78,22 @@ public class ProfileActivity extends AppCompatActivity {
             mAuth.signOut();
             startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
             finish();
+        });
+
+
+        // Bottom Navigation Handling
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.nav_home) {
+                    startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
+                    return true;
+                } else if (item.getItemId() == R.id.nav_profile) {
+                    return true;
+                }
+                return false;
+            }
         });
     }
 
@@ -146,4 +168,6 @@ public class ProfileActivity extends AppCompatActivity {
                 .addOnFailureListener(e ->
                         Toast.makeText(ProfileActivity.this, "Error updating profile", Toast.LENGTH_SHORT).show());
     }
+
+
 }
