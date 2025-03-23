@@ -73,66 +73,69 @@ public class GlucoseGuardianActivity extends AppCompatActivity {
 
         logsRef.whereGreaterThanOrEqualTo("timestamp", new Timestamp(sevenDaysAgo))
                 .orderBy("timestamp", Query.Direction.ASCENDING)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        LinkedHashMap<String, ArrayList<Integer>> dailyReadings = new LinkedHashMap<>();
-                        ArrayList<Entry> chartEntries = new ArrayList<>();
-                        ArrayList<String> dateLabels = new ArrayList<>();
-                        ArrayList<Integer> allReadings = new ArrayList<>();
-                        ArrayList<Integer> todayReadings = new ArrayList<>();
+                .addSnapshotListener((queryDocumentSnapshots, error) -> {  // Listen for real-time updates
+                    if (error != null) {
+                        return;
+                    }
+                    if (queryDocumentSnapshots == null) return;
 
-                        // Initialize last 7 days with empty lists
-                        for (int i = 0; i < 7; i++) {
-                            String dateKey = getFormattedDate(calendar.getTime());
-                            dailyReadings.put(dateKey, new ArrayList<>());
-                            calendar.add(Calendar.DAY_OF_YEAR, 1);
-                        }
+                    LinkedHashMap<String, ArrayList<Integer>> dailyReadings = new LinkedHashMap<>();
+                    ArrayList<Entry> chartEntries = new ArrayList<>();
+                    ArrayList<String> dateLabels = new ArrayList<>();
+                    ArrayList<Integer> allReadings = new ArrayList<>();
+                    ArrayList<Integer> todayReadings = new ArrayList<>();
 
-                        for (QueryDocumentSnapshot doc : task.getResult()) {
-                            Timestamp timestamp = doc.getTimestamp("timestamp");
-                            Long bloodSugar = doc.getLong("value");
+                    // Initialize last 7 days with empty lists
+                    for (int i = 0; i < 7; i++) {
+                        String dateKey = getFormattedDate(calendar.getTime());
+                        dailyReadings.put(dateKey, new ArrayList<>());
+                        calendar.add(Calendar.DAY_OF_YEAR, 1);
+                    }
 
-                            if (timestamp != null && bloodSugar != null) {
-                                String dateKey = getFormattedDate(timestamp.toDate());
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                        Timestamp timestamp = doc.getTimestamp("timestamp");
+                        Long bloodSugar = doc.getLong("value");
 
-                                if (dailyReadings.containsKey(dateKey)) {
-                                    dailyReadings.get(dateKey).add(bloodSugar.intValue());
-                                }
+                        if (timestamp != null && bloodSugar != null) {
+                            String dateKey = getFormattedDate(timestamp.toDate());
 
-                                // Add all values to calculate the 7-day average
-                                allReadings.add(bloodSugar.intValue());
+                            if (dailyReadings.containsKey(dateKey)) {
+                                dailyReadings.get(dateKey).add(bloodSugar.intValue());
+                            }
 
-                                // Check if it's today's date
-                                if (isSameDay(timestamp.toDate(), today)) {
-                                    todayReadings.add(bloodSugar.intValue());
-                                }
+                            // Add all values to calculate the 7-day average
+                            allReadings.add(bloodSugar.intValue());
+
+                            // Check if it's today's date
+                            if (isSameDay(timestamp.toDate(), today)) {
+                                todayReadings.add(bloodSugar.intValue());
                             }
                         }
-
-                        // Compute daily averages and prepare chart entries
-                        int index = 0;
-                        for (Map.Entry<String, ArrayList<Integer>> entry : dailyReadings.entrySet()) {
-                            double dailyAvg = calculateAverage(entry.getValue());
-                            chartEntries.add(new Entry(index++, (float) dailyAvg));
-                            dateLabels.add(entry.getKey()); // Save the date for X-axis
-                        }
-
-                        // Compute overall 7-day average and today's average
-                        double avg7Days = calculateAverage(allReadings);
-                        double avgToday = calculateAverage(todayReadings);
-
-                        // Update UI
-                        avg7DaysText.setText(String.format(Locale.getDefault(), "%.1f mg/dL", avg7Days));
-                        avgTodayText.setText(String.format(Locale.getDefault(), "%.1f mg/dL", avgToday));
-
-                        updateStatusText(avg7Days); // Update the status label
-
-                        // Update the chart with fixed X-Axis labels
-                        setChartData(chartEntries, dateLabels);
                     }
+
+                    // Compute daily averages and prepare chart entries
+                    int index = 0;
+                    for (Map.Entry<String, ArrayList<Integer>> entry : dailyReadings.entrySet()) {
+                        double dailyAvg = calculateAverage(entry.getValue());
+                        chartEntries.add(new Entry(index++, (float) dailyAvg));
+                        dateLabels.add(entry.getKey()); // Save the date for X-axis
+                    }
+
+                    // Compute overall 7-day average and today's average
+                    double avg7Days = calculateAverage(allReadings);
+                    double avgToday = calculateAverage(todayReadings);
+
+                    // Update UI
+                    avg7DaysText.setText(String.format(Locale.getDefault(), "%.1f mg/dL", avg7Days));
+                    avgTodayText.setText(String.format(Locale.getDefault(), "%.1f mg/dL", avgToday));
+
+                    updateStatusText(avg7Days); // Update the status label
+
+                    // Update the chart with fixed X-Axis labels
+                    setChartData(chartEntries, dateLabels);
                 });
     }
+
 
 
     private String getFormattedDate(Date date) {
@@ -150,12 +153,12 @@ public class GlucoseGuardianActivity extends AppCompatActivity {
     }
 
     private void updateStatusText(double avg7Days) {
-        if (avg7Days < 100) {
+        if (avg7Days < 70) {
+            statusText.setText("Low Level ⚠️");
+            statusText.setTextColor(Color.parseColor("#CC9900"));// Darker yellow
+        } else if (avg7Days < 140) {
             statusText.setText("Good Level ✅");
             statusText.setTextColor(Color.GREEN);
-        } else if (avg7Days < 140) {
-            statusText.setText("Moderate Level ⚠️");
-            statusText.setTextColor(Color.parseColor("#CC9900")); // Darker yellow
         } else {
             statusText.setText("Bad Level ❌");
             statusText.setTextColor(Color.RED);
