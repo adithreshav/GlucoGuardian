@@ -3,6 +3,7 @@ package com.example.healthcareassitant;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -56,7 +57,13 @@ public class GlucoseGuardianActivity extends AppCompatActivity {
         });
 
         setupChart();
-        fetchBloodSugarData();
+        fetchBloodSugarData(); // Initial fetch when activity is created
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchBloodSugarData(); // Refresh data when returning to this activity
     }
 
     private void fetchBloodSugarData() {
@@ -73,11 +80,14 @@ public class GlucoseGuardianActivity extends AppCompatActivity {
 
         logsRef.whereGreaterThanOrEqualTo("timestamp", new Timestamp(sevenDaysAgo))
                 .orderBy("timestamp", Query.Direction.ASCENDING)
-                .addSnapshotListener((queryDocumentSnapshots, error) -> {  // Listen for real-time updates
+                .addSnapshotListener((queryDocumentSnapshots, error) -> {
                     if (error != null) {
+                        Log.e("Firestore", "Error fetching data", error);
                         return;
                     }
                     if (queryDocumentSnapshots == null) return;
+
+                    Log.d("Firestore", "New data detected: " + queryDocumentSnapshots.size());
 
                     LinkedHashMap<String, ArrayList<Integer>> dailyReadings = new LinkedHashMap<>();
                     ArrayList<Entry> chartEntries = new ArrayList<>();
@@ -103,40 +113,33 @@ public class GlucoseGuardianActivity extends AppCompatActivity {
                                 dailyReadings.get(dateKey).add(bloodSugar.intValue());
                             }
 
-                            // Add all values to calculate the 7-day average
                             allReadings.add(bloodSugar.intValue());
 
-                            // Check if it's today's date
                             if (isSameDay(timestamp.toDate(), today)) {
                                 todayReadings.add(bloodSugar.intValue());
                             }
                         }
                     }
 
-                    // Compute daily averages and prepare chart entries
                     int index = 0;
                     for (Map.Entry<String, ArrayList<Integer>> entry : dailyReadings.entrySet()) {
                         double dailyAvg = calculateAverage(entry.getValue());
                         chartEntries.add(new Entry(index++, (float) dailyAvg));
-                        dateLabels.add(entry.getKey()); // Save the date for X-axis
+                        dateLabels.add(entry.getKey());
                     }
 
-                    // Compute overall 7-day average and today's average
                     double avg7Days = calculateAverage(allReadings);
                     double avgToday = calculateAverage(todayReadings);
 
-                    // Update UI
-                    avg7DaysText.setText(String.format(Locale.getDefault(), "%.1f mg/dL", avg7Days));
-                    avgTodayText.setText(String.format(Locale.getDefault(), "%.1f mg/dL", avgToday));
-
-                    updateStatusText(avg7Days); // Update the status label
-
-                    // Update the chart with fixed X-Axis labels
-                    setChartData(chartEntries, dateLabels);
+                    runOnUiThread(() -> {
+                        avg7DaysText.setText(String.format(Locale.getDefault(), "%.1f mg/dL", avg7Days));
+                        avgTodayText.setText(String.format(Locale.getDefault(), "%.1f mg/dL", avgToday));
+                        updateStatusText(avg7Days);
+                        setChartData(chartEntries, dateLabels);
+                        bloodSugarChart.invalidate(); // Ensure chart updates immediately
+                    });
                 });
     }
-
-
 
     private String getFormattedDate(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd", Locale.getDefault());
@@ -155,7 +158,7 @@ public class GlucoseGuardianActivity extends AppCompatActivity {
     private void updateStatusText(double avg7Days) {
         if (avg7Days < 70) {
             statusText.setText("Low Level ⚠️");
-            statusText.setTextColor(Color.parseColor("#CC9900"));// Darker yellow
+            statusText.setTextColor(Color.parseColor("#CC9900"));
         } else if (avg7Days < 140) {
             statusText.setText("Good Level ✅");
             statusText.setTextColor(Color.GREEN);
@@ -176,21 +179,20 @@ public class GlucoseGuardianActivity extends AppCompatActivity {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f);
-        xAxis.setTextColor(Color.BLACK); // Darken text
-        xAxis.setAxisLineColor(Color.DKGRAY); // Darker axis line
+        xAxis.setTextColor(Color.BLACK);
+        xAxis.setAxisLineColor(Color.DKGRAY);
 
         YAxis leftAxis = bloodSugarChart.getAxisLeft();
         leftAxis.setDrawGridLines(false);
-        leftAxis.setTextColor(Color.BLACK); // Darken text
-        leftAxis.setAxisLineColor(Color.DKGRAY); // Darker axis line
+        leftAxis.setTextColor(Color.BLACK);
+        leftAxis.setAxisLineColor(Color.DKGRAY);
 
         bloodSugarChart.getAxisRight().setEnabled(false);
     }
 
-
     private void setChartData(ArrayList<Entry> values, ArrayList<String> labels) {
         if (values.isEmpty()) {
-            values.add(new Entry(0, 100)); // Placeholder
+            values.add(new Entry(0, 100));
         }
 
         LineDataSet dataSet = new LineDataSet(values, "Blood Sugar Levels");
@@ -203,7 +205,6 @@ public class GlucoseGuardianActivity extends AppCompatActivity {
         LineData lineData = new LineData(dataSet);
         bloodSugarChart.setData(lineData);
 
-        // Set X-axis labels to show dates
         XAxis xAxis = bloodSugarChart.getXAxis();
         xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
         xAxis.setGranularity(1f);
@@ -211,7 +212,6 @@ public class GlucoseGuardianActivity extends AppCompatActivity {
 
         bloodSugarChart.invalidate();
     }
-
 
     private boolean isSameDay(Date date1, Date date2) {
         Calendar cal1 = Calendar.getInstance();
